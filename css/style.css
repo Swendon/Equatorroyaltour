@@ -216,7 +216,7 @@ img { max-width: 100%; display: block; }
 .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
 .landing {
-  background: url('../images/hero.jpg') center center / cover no-repeat;
+  background: #132b1b url('../images/equator-royal-tour.png') center center / contain no-repeat;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -225,11 +225,7 @@ img { max-width: 100%; display: block; }
   color: var(--white);
 }
 
-.overlay {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 60px;
-  border-radius: 10px;
-}
+.overlay { display: none; }
 
 .landing .btn {
   display: inline-block;

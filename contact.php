@@ -8,7 +8,7 @@ $showFloatingWhatsapp = true;
 $success = false;
 $errors = [];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {s
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
@@ -74,14 +74,14 @@ include __DIR__ . '/includes/header.php';
         <h3>Registration Centres</h3>
         <p>Nakuru Railway, Makutano, Mlango Moja, Mlango Tatu, Mlango Nne, Equator, Hill Tea, Boito, Timboroa.</p>
       </div>
-      <div class="card ai-whatsapp-card" style="margin-bottom:20px;">
+      <div class="card whatsapp-card" style="margin-bottom:20px;">
         <span class="contact-kicker">Instant support</span>
-        <h3><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> AI WhatsApp</h3>
+        <h3><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp</h3>
         <p>Tap the button below to start a guided WhatsApp chat for faster communication and partnership enquiries.</p>
         <p><strong>WhatsApp:</strong> <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/254724696687" target="_blank" rel="noreferrer">+254 724 696 687</a></p>
         <a class="btn btn-primary whatsapp-contact-btn" href="https://wa.me/254724696687?text=Hello%20Equator%20Royal%20Tour%2C%20I%20would%20like%20more%20information." target="_blank" rel="noreferrer">
           <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-          Contact AI WhatsApp
+          Contact us on WhatsApp
         </a>
       </div>
       <div class="card">

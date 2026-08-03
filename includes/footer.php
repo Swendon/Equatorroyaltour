@@ -35,10 +35,10 @@
    class="whatsapp"
    target="_blank"
    rel="noopener noreferrer"
-   aria-label="Chat with AI WhatsApp at +254 724 696 687">
+   aria-label="Chat on WhatsApp at +254 724 696 687">
   <span class="whatsapp-icon"><i class="fab fa-whatsapp" aria-hidden="true"></i></span>
   <span class="whatsapp-copy">
-    <strong>AI WhatsApp</strong>
+    <strong>WhatsApp</strong>
     <span>+254 724 696 687</span>
   </span>
 </a>

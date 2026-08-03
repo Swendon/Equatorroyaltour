@@ -310,13 +310,13 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
 }
 
-.ai-whatsapp-card {
+.whatsapp-card {
   border-top-color: #25D366;
   position: relative;
   overflow: hidden;
 }
 
-.ai-whatsapp-card::after {
+.whatsapp-card::after {
   content: "";
   position: absolute;
   right: -34px;
@@ -327,15 +327,15 @@ img { max-width: 100%; display: block; }
   background: rgba(37, 211, 102, 0.12);
 }
 
-.ai-whatsapp-card h3 {
+.whatsapp-card h3 {
   align-items: center;
   display: flex;
   gap: 9px;
 }
 
-.ai-whatsapp-card h3 i { color: #25D366; }
+.whatsapp-card h3 i { color: #25D366; }
 
-.ai-whatsapp-card p + p { margin-top: 12px; }
+.whatsapp-card p + p { margin-top: 12px; }
 
 .whatsapp-contact-btn {
   align-items: center;

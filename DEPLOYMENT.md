@@ -48,10 +48,8 @@ define('DB_NAME', 'equator_royal_tour'); // Replace with your database name
 define('APP_KEY', 'paste-your-random-32-byte-key-here');
 ```
 
-4. **Update the notification email address** in:
-   - `register.php` — line with `@mail('info@equatorroyaltour.com', ...)`
-   - `contact.php` — line with `@mail('info@equatorroyaltour.com', ...)`
-   Replace with your real email address.
+3. **Update the notification email address**:
+   - Set `NOTIFY_EMAIL` in `config.php` to `jswendon@gmail.com`
 
 ## Step 5 — Set Permissions
 Some hosts require writable directories:

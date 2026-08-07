@@ -26,7 +26,7 @@ define('APP_KEY', 'change-me-to-a-random-32-byte-hex-key');
 
 // Email notifications will be sent TO this address.
 // Replace with your real email so you receive form submissions.
-define('NOTIFY_EMAIL', 'your-email@example.com');
+define('NOTIFY_EMAIL', 'jswendon@gmail.com');
 
 function encrypt_field($plaintext) {
     $key = hash('SHA256', APP_KEY, true);

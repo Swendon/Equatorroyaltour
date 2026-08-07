@@ -8,7 +8,6 @@ define('DB_USER', 'your_db_username');
 define('DB_PASS', 'Ruby@254');
 define('DB_NAME', 'equator_royal_tour');
 
-// Encryption key — generate a random 32-byte key for production.
-// Run: php -r "echo bin2hex(random_bytes(32));"
-// Or use: https://www.random.org/strings/
-define('APP_KEY', 'replace-with-random-32-byte-hex-key');
+// Email notifications will be sent TO this address.
+define('NOTIFY_EMAIL', 'jswendon@gmail.com');
+

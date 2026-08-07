@@ -5,7 +5,7 @@
 // Database connection — replace with your hosting provider's credentials.
 define('DB_HOST', 'localhost');
 define('DB_USER', 'your_db_username');
-define('DB_PASS', 'your_db_password');
+define('DB_PASS', 'Ruby@254');
 define('DB_NAME', 'equator_royal_tour');
 
 // Encryption key — generate a random 32-byte key for production.

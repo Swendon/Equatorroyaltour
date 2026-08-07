@@ -14,7 +14,7 @@
 
 define('DB_HOST', 'localhost');       // e.g. localhost, mysql.hostinger.com
 define('DB_USER', 'root');            // Replace with your MySQL username
-define('DB_PASS', '');                // Replace with your MySQL password
+define('DB_PASS', 'Ruby@254');        // Replace with your MySQL password
 define('DB_NAME', 'equator_royal_tour'); // Replace with your database name
 
 // Encryption key for National ID numbers and other sensitive fields.

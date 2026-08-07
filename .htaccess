@@ -1,0 +1,33 @@
+# Equator Royal Tour CBO — Deployment
+# Prevent directory listing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "\.(sql|log|md|json|env|dist|inc)$">
+    Require all denied
+</FilesMatch>
+
+# Protect config.php
+<Files "config.php">
+    Require all denied
+</Files>
+
+# Protect deploy-config.php
+<Files "deploy-config.php">
+    Require all denied
+</Files>
+
+# Protect .git directory
+<DirectoryMatch "\.git">
+    Require all denied
+</DirectoryMatch>
+
+# Protect admin directory (optional: restrict by IP if needed)
+# <Directory "admin">
+#     Require ip 123.123.123.123
+# </Directory>
+
+# Force HTTPS (uncomment if your host supports it)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

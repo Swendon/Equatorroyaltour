@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 $pageTitle = 'The Project';
+$pageDescription = 'Mumberes Safe Trade Corridor Project — improving livelihoods, road safety, and environmental sustainability through safe trading bays, heritage railway revival, and catchment restoration.';
 $active = 'project';
 $basePath = '';
 include __DIR__ . '/includes/header.php';
@@ -24,7 +25,7 @@ include __DIR__ . '/includes/header.php';
       <div class="card"><h3>Women's Cooperative</h3><p>Register and operationalize the Mumberes Women Traders Cooperative Society with 500 members.</p></div>
       <div class="card"><h3>Capacity Building</h3><p>Training in cooperative governance, financial literacy, value addition and entrepreneurship.</p></div>
       <div class="card"><h3>Debt Liberation Fund</h3><p>A KSh 2 million fund to reduce dependency on predatory digital lending.</p></div>
-      <div class="card"><h3>Legal Recognition</h3><p>Secure agreements with KeNHA, Kenya Railways and Baringo County for eight trading centres.</p></div>
+      <div class="card"><h3>Legal Recognition</h3><p>Secure agreements with KeNHA, Kenya Railways and Baringo County for nine trading centres.</p></div>
       <div class="card"><h3>Heritage Railway Hub</h3><p>Rehabilitate Timboroa Railway Station into a Heritage Agricultural Hub with cold storage and loading facilities.</p></div>
       <div class="card"><h3>Rail Cargo</h3><p>Secure at least one monthly cargo wagon for potato transport to Nakuru markets.</p></div>
       <div class="card"><h3>Catchment Restoration</h3><p>Plant at least 10,000 indigenous trees in the Mau–Mumberes Water Catchment.</p></div>
@@ -76,7 +77,7 @@ include __DIR__ . '/includes/header.php';
   <div class="container">
     <div class="section-head">
       <div class="eyebrow">Budget Summary</div>
-      <h2>Total project cost: KSh 24,500,000</h2>
+      <h2>Total project cost: KSh 25,500,000</h2>
     </div>
     <table>
       <thead>

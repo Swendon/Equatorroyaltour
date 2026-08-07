@@ -568,6 +568,28 @@ tr:hover td { background: var(--cream-dark); }
 .badge-approved { background: #e5f3e8; color: #1f5c33; }
 .badge-rejected { background: #fbe2e2; color: #9a3412; }
 
+.testimonial-card { border-top-color: var(--green-mid); }
+.testimonial-text { color: var(--ink); font-size: 15px; font-style: italic; margin-bottom: 12px; }
+.testimonial-author { color: var(--muted); font-size: 13px; margin: 0; }
+
+.gallery-grid { gap: 28px; }
+.gallery-item { text-align: center; }
+.gallery-placeholder {
+  background: linear-gradient(120deg, var(--green-deep), var(--green-mid));
+  color: var(--cream);
+  border-radius: var(--radius);
+  padding: 48px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  box-shadow: var(--shadow);
+}
+.gallery-caption { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
 .two-col {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;

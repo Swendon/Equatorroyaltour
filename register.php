@@ -1,13 +1,26 @@
 <?php
 require_once __DIR__ . '/config.php';
 $pageTitle = 'Trader Registration';
+$pageDescription = 'Join the Mumberes Women Traders Cooperative. Register as a trader to access safe trading bays across nine centres in Baringo County, Kenya.';
 $active = 'register';
 $basePath = '';
+$showFloatingWhatsapp = true;
+
+$csrf_token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $csrf_token;
 
 $success = false;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $errors[] = 'Invalid request. Please try again.';
+    }
+    if (!empty($_POST['honeypot'])) {
+        $success = true;
+        exit;
+    }
+
     $full_name = trim($_POST['full_name'] ?? '');
     $id_number = trim($_POST['id_number'] ?? '');
     $phone = trim($_POST['phone'] ?? '');
@@ -23,14 +36,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) { $errors[] = 'Please enter a valid email address.'; }
 
     if (empty($errors)) {
-        $stmt = mysqli_prepare($conn, 'INSERT INTO registrations (full_name, id_number, phone, email, trading_centre, produce_type, gender) VALUES (?, ?, ?, ?, ?, ?, ?)');
-        mysqli_stmt_bind_param($stmt, 'sssssss', $full_name, $id_number, $phone, $email, $trading_centre, $produce_type, $gender);
-        if (mysqli_stmt_execute($stmt)) {
-            $success = true;
-        } else {
-            $errors[] = 'Something went wrong while saving your registration. Please try again.';
+        $id_number_encrypted = encrypt_field($id_number);
+
+        $check = mysqli_prepare($conn, 'SELECT id FROM registrations WHERE id_number = ?');
+        mysqli_stmt_bind_param($check, 's', $id_number_encrypted);
+        mysqli_stmt_execute($check);
+        mysqli_stmt_store_result($check);
+        if (mysqli_stmt_num_rows($check) > 0) {
+            $errors[] = 'This National ID number has already been registered. Please contact the office if you believe this is an error.';
         }
-        mysqli_stmt_close($stmt);
+        mysqli_stmt_close($check);
+
+        if (empty($errors)) {
+            $stmt = mysqli_prepare($conn, 'INSERT INTO registrations (full_name, id_number, phone, email, trading_centre, produce_type, gender) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            mysqli_stmt_bind_param($stmt, 'sssssss', $full_name, $id_number_encrypted, $phone, $email, $trading_centre, $produce_type, $gender);
+            if (mysqli_stmt_execute($stmt)) {
+                $success = true;
+                @mail('info@equatorroyaltour.com', 'New Trader Registration', "Name: $full_name\nPhone: $phone\nCentre: $trading_centre\nProduce: $produce_type");
+            } else {
+                $errors[] = 'Something went wrong while saving your registration. Please try again.';
+            }
+            mysqli_stmt_close($stmt);
+        }
     }
 }
 
@@ -66,6 +93,11 @@ include __DIR__ . '/includes/header.php';
       <?php endif; ?>
 
       <form method="POST" action="register.php">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+        <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-row">
           <div class="form-group">
             <label for="full_name">Full Name</label>

@@ -53,11 +53,9 @@ ON DUPLICATE KEY UPDATE name = VALUES(name);
 CREATE TABLE IF NOT EXISTS admins (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL
+    password_hash VARCHAR(255) NOT NULL,
+    must_change_password TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
--- Default admin: username = admin / password = admin123
--- Change this password after first login (see README.md).
-INSERT INTO admins (username, password_hash) VALUES
-    ('admin', '$2b$10$WT0VE5ucleYLjN3IBa5BNOV4EhOoXCcZxymQFOO2FXrjuW.7UBdYW')
-ON DUPLICATE KEY UPDATE username = VALUES(username);
+-- No default admin account is inserted. Run the setup wizard at /admin/login.php
+-- after importing this schema to create your first administrator account.

@@ -1,14 +1,26 @@
 <?php
 require_once __DIR__ . '/config.php';
 $pageTitle = 'Contact Us';
+$pageDescription = 'Contact Equator Royal Tour CBO for partnerships, development enquiries, and corporate sponsorship opportunities across Baringo County, Kenya.';
 $active = 'contact';
 $basePath = '';
 $showFloatingWhatsapp = true;
+
+$csrf_token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $csrf_token;
 
 $success = false;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        $errors[] = 'Invalid request. Please try again.';
+    }
+    if (!empty($_POST['honeypot'])) {
+        $success = true;
+        exit;
+    }
+
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
@@ -23,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_bind_param($stmt, 'ssss', $name, $email, $subject, $message);
         if (mysqli_stmt_execute($stmt)) {
             $success = true;
+            @mail('info@equatorroyaltour.com', 'New Contact Message: ' . $subject, "From: $name <$email>\n\n$message");
         } else {
             $errors[] = 'Something went wrong while sending your message. Please try again.';
         }
@@ -50,6 +63,11 @@ include __DIR__ . '/includes/header.php';
         <div class="alert alert-error"><?php foreach ($errors as $err) { echo htmlspecialchars($err) . '<br>'; } ?></div>
       <?php endif; ?>
       <form method="POST" action="contact.php">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+        <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-group">
           <label for="name">Your Name</label>
           <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" required>
@@ -72,7 +90,16 @@ include __DIR__ . '/includes/header.php';
     <div>
       <div class="card" style="margin-bottom:20px;">
         <h3>Registration Centres</h3>
-        <p>Nakuru Railway, Makutano, Mlango Moja, Mlango Tatu, Mlango Nne, Equator, Hill Tea, Boito, Timboroa.</p>
+        <?php
+        $centres = [];
+        $result = mysqli_query($conn, 'SELECT name FROM trading_centres ORDER BY name');
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $centres[] = $row['name'];
+            }
+        }
+        echo '<p>' . htmlspecialchars(implode(', ', $centres)) . '.</p>';
+        ?>
       </div>
       <div class="card whatsapp-card" style="margin-bottom:20px;">
         <span class="contact-kicker">Instant support</span>
@@ -84,11 +111,7 @@ include __DIR__ . '/includes/header.php';
           Contact us on WhatsApp
         </a>
       </div>
-      <div class="card">
-        <h3>Banking Details</h3>
-        <p><strong>Account Name:</strong> Equator Royal Tour</p>
-        <p><strong>Banks:</strong> Equity Bank &amp; KCB, Eldama Ravine Branch</p>
-      </div>
+      <?php include __DIR__ . '/includes/banking-card.php'; ?>
     </div>
   </div>
 </section>

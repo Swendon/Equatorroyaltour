@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/auth_check.php';
 
 // Handle status updates
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registration_id'], $_POST['status'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registration_id'], $_POST['status'], $_POST['csrf_token']) && $_POST['csrf_token'] === ($_SESSION['csrf_token'] ?? '')) {
     $id = (int) $_POST['registration_id'];
     $status = in_array($_POST['status'], ['Pending', 'Approved', 'Rejected'], true) ? $_POST['status'] : 'Pending';
     $stmt = mysqli_prepare($conn, 'UPDATE registrations SET status = ? WHERE id = ?');
@@ -74,7 +74,7 @@ $messages = mysqli_query($conn, 'SELECT * FROM messages ORDER BY created_at DESC
             <?php while ($r = mysqli_fetch_assoc($registrations)): ?>
               <tr>
                 <td><?php echo htmlspecialchars($r['full_name']); ?></td>
-                <td><?php echo htmlspecialchars($r['id_number']); ?></td>
+                <td><?php echo htmlspecialchars(decrypt_field($r['id_number'])); ?></td>
                 <td><?php echo htmlspecialchars($r['phone']); ?></td>
                 <td><?php echo htmlspecialchars($r['trading_centre']); ?></td>
                 <td><?php echo htmlspecialchars($r['produce_type']); ?></td>
@@ -83,6 +83,7 @@ $messages = mysqli_query($conn, 'SELECT * FROM messages ORDER BY created_at DESC
                 <td><?php echo htmlspecialchars(date('d M Y', strtotime($r['created_at']))); ?></td>
                 <td>
                   <form method="POST" style="display:flex;gap:6px;">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
                     <input type="hidden" name="registration_id" value="<?php echo (int) $r['id']; ?>">
                     <select name="status" onchange="this.form.submit()">
                       <option value="Pending" <?php echo $r['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>

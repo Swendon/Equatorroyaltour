@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/config.php';
 $pageTitle = 'Home';
+$pageDescription = 'Equator Royal Tour CBO homepage — empowering 500 women traders, restoring the Mau–Mumberes catchment, and unlocking tourism and transport opportunities across Baringo County, Kenya.';
 $active = 'home';
 $basePath = '';
+$showFloatingWhatsapp = true;
 include __DIR__ . '/includes/header.php';
 ?>
 
@@ -106,15 +108,17 @@ include __DIR__ . '/includes/header.php';
       <h2>Registration is open across nine centres</h2>
     </div>
     <div class="centres-list">
-      <span class="centre-chip">Nakuru Railway</span>
-      <span class="centre-chip">Makutano</span>
-      <span class="centre-chip">Mlango Moja</span>
-      <span class="centre-chip">Mlango Tatu</span>
-      <span class="centre-chip">Mlango Nne</span>
-      <span class="centre-chip">Equator</span>
-      <span class="centre-chip">Hill Tea</span>
-      <span class="centre-chip">Boito</span>
-      <span class="centre-chip">Timboroa</span>
+      <?php
+      $centres = [];
+      $result = mysqli_query($conn, 'SELECT name FROM trading_centres ORDER BY name');
+      if ($result) {
+          while ($row = mysqli_fetch_assoc($result)) {
+              $centres[] = $row['name'];
+          }
+      }
+      foreach ($centres as $centre): ?>
+        <span class="centre-chip"><?php echo htmlspecialchars($centre); ?></span>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -127,23 +131,77 @@ include __DIR__ . '/includes/header.php';
       <p>We are working toward a future where women traders have safe markets, the river catchment is protected, and the railway is a shared asset for tourism and commerce.</p>
       <a href="about.php" class="btn btn-primary">Read Our Story</a>
     </div>
-    <div class="card">
-      <h3>Banking Details</h3>
-      <p><strong>Account Name:</strong> Equator Royal Tour</p>
-      <p><strong>Banks:</strong> Equity Bank &amp; KCB</p>
-      <p><strong>Branch:</strong> Eldama Ravine</p>
-      <p style="margin-top:12px;"><strong>Online Registration:</strong> www.equatorroyaltour.com</p>
+    <?php include __DIR__ . '/includes/banking-card.php'; ?>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Impact Stories</div>
+      <h2>Hear from our traders</h2>
+      <p>Real voices from the Mumberes corridor showing how safe trading bays and cooperative support are changing lives.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card testimonial-card">
+        <p class="testimonial-text">"Since joining the cooperative, I no longer worry about my produce getting rained on. The trading bay gives us shelter and a fair place to sell."</p>
+        <p class="testimonial-author"><strong>Grace Chelimo</strong> — Trader, Timboroa Centre</p>
+      </div>
+      <div class="card testimonial-card">
+        <p class="testimonial-text">"The financial literacy training helped me understand how to save and grow my business. I now employ two other women from my village."</p>
+        <p class="testimonial-author"><strong>Mary Njeri</strong> — Trader, Equator Centre</p>
+      </div>
+      <div class="card testimonial-card">
+        <p class="testimonial-text">"Having a recognized trading space means county officers can protect us instead of chasing us away. Our safety matters now."</p>
+        <p class="testimonial-author"><strong>Sarah Chepkemoi</strong> — Trader, Boito Centre</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section cta-banner">
-  <div class="container cta-grid">
-    <div>
-      <h3>Want to support the corridor?</h3>
-      <p>Partner with us to expand safe trading bays, restore heritage infrastructure, and protect the watershed.</p>
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Heritage &amp; Environment</div>
+      <h2>Corridor gallery</h2>
+      <p>Historic railway infrastructure, community tree planting, and the landscapes we are working to protect.</p>
     </div>
-    <a href="contact.php" class="btn btn-primary">Contact Us</a>
+    <div class="grid grid-3 gallery-grid">
+      <div class="gallery-item">
+        <div class="gallery-placeholder" role="img" aria-label="Historic Equator railway sign along the corridor">
+          <span>Equator Heritage Sign</span>
+        </div>
+        <p class="gallery-caption">Historic Equator sign — a landmark of the corridor since 1926</p>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder" role="img" aria-label="Timboroa Railway Station heritage restoration site">
+          <span>Timboroa Station</span>
+        </div>
+        <p class="gallery-caption">Timboroa Railway Station — future Heritage Agricultural Hub</p>
+      </div>
+      <div class="gallery-item">
+        <div class="gallery-placeholder" role="img" aria-label="Community tree planting in Mau Mumberes water catchment">
+          <span>Catchment Restoration</span>
+        </div>
+        <p class="gallery-caption">Community tree planting in the Mau–Mumberes catchment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Partner With Us</div>
+      <h2>Download the full proposal</h2>
+      <p>Corporate partners, NGOs, and development institutions can review the complete project proposal for investment and partnership.</p>
+    </div>
+    <div style="text-align:center;">
+      <a href="assets/proposal.pdf" class="btn btn-primary" target="_blank" rel="noreferrer">
+        <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
+        Download Full Proposal (PDF)
+      </a>
+    </div>
   </div>
 </section>
 

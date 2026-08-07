@@ -13,9 +13,21 @@
       </div>
       <div>
         <h4>Registration Centres</h4>
-        <p>Nakuru Railway &middot; Makutano &middot; Mlango Moja</p>
-        <p>Mlango Tatu &middot; Mlango Nne &middot; Equator</p>
-        <p>Hill Tea &middot; Boito &middot; Timboroa</p>
+        <?php
+        $centres = [];
+        if (isset($conn)) {
+            $result = mysqli_query($conn, 'SELECT name FROM trading_centres ORDER BY name');
+            if ($result) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $centres[] = $row['name'];
+                }
+            }
+        }
+        $chunks = array_chunk($centres, 3);
+        foreach ($chunks as $chunk) {
+            echo '<p>' . htmlspecialchars(implode(' &middot; ', $chunk)) . '</p>';
+        }
+        ?>
       </div>
       <div>
         <h4>Banking Details</h4>
@@ -28,7 +40,6 @@
     </div>
   </div>
 </footer>
-<?php if (!isset($showFloatingWhatsapp)) { $showFloatingWhatsapp = false; } ?>
 <?php if ($showFloatingWhatsapp): ?>
 <!-- WhatsApp Floating Button -->
 <a href="https://wa.me/254724696687?text=Hello%20Equator%20Royal%20Tour%2C%20I%20would%20like%20more%20information."

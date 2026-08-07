@@ -1,6 +1,4 @@
-<?php include 'includes/header.php'; ?>
-
-<section class="landing">
-</section>
-
-<?php include 'includes/footer.php'; ?>
+<?php
+require_once __DIR__ . '/config.php';
+header('Location: home.php');
+exit;

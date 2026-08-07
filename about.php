@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config.php';
 $pageTitle = 'About Us';
+$pageDescription = 'Learn about Equator Royal Tour CBO — a registered community organization from Baringo County, Kenya, dedicated to sustainable livelihoods, heritage conservation, and economic empowerment.';
 $active = 'about';
 $basePath = '';
 include __DIR__ . '/includes/header.php';
@@ -45,6 +46,28 @@ include __DIR__ . '/includes/header.php';
       <div class="card"><h3>Kenya Railways</h3><p>Station rehabilitation, cargo transportation, heritage train operations.</p></div>
       <div class="card"><h3>Baringo County</h3><p>Cooperative support, market policy, environmental conservation.</p></div>
       <div class="card"><h3>Corporate Partners</h3><p>CSR support for cold storage, the Debt Liberation Fund, water conservation and tourism.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Trading Centres</div>
+      <h2>Registered across nine centres</h2>
+    </div>
+    <div class="centres-list">
+      <?php
+      $centres = [];
+      $result = mysqli_query($conn, 'SELECT name FROM trading_centres ORDER BY name');
+      if ($result) {
+          while ($row = mysqli_fetch_assoc($result)) {
+              $centres[] = $row['name'];
+          }
+      }
+      foreach ($centres as $centre): ?>
+        <span class="centre-chip"><?php echo htmlspecialchars($centre); ?></span>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>

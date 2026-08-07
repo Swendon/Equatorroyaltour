@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mysqli_stmt_bind_param($stmt, 'sssssss', $full_name, $id_number_encrypted, $phone, $email, $trading_centre, $produce_type, $gender);
             if (mysqli_stmt_execute($stmt)) {
                 $success = true;
-                @mail('info@equatorroyaltour.com', 'New Trader Registration', "Name: $full_name\nPhone: $phone\nCentre: $trading_centre\nProduce: $produce_type");
+                @mail(NOTIFY_EMAIL, 'New Trader Registration', "Name: $full_name\nPhone: $phone\nCentre: $trading_centre\nProduce: $produce_type");
             } else {
                 $errors[] = 'Something went wrong while saving your registration. Please try again.';
             }

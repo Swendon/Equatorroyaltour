@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_bind_param($stmt, 'ssss', $name, $email, $subject, $message);
         if (mysqli_stmt_execute($stmt)) {
             $success = true;
-            @mail('info@equatorroyaltour.com', 'New Contact Message: ' . $subject, "From: $name <$email>\n\n$message");
+            @mail(NOTIFY_EMAIL, 'New Contact Message: ' . $subject, "From: $name <$email>\n\n$message");
         } else {
             $errors[] = 'Something went wrong while sending your message. Please try again.';
         }

@@ -1,17 +1,32 @@
 <?php
 
-// WARNING: For production deployments, change DB_PASS from '' (empty root password)
-// to a strong, unique password. Using an empty root password over the network
-// exposes the database to unauthorized access. Update these credentials to match
-// your MySQL installation and never commit real passwords to version control.
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'equator_royal_tour');
+// ============================================================
+// PRODUCTION CONFIGURATION — UPDATE THESE VALUES BEFORE DEPLOY
+// ============================================================
+// Get these from your hosting control panel (cPanel, Plesk, etc.)
+//  - DB_HOST: Usually "localhost", sometimes "mysql.hostname.com"
+//  - DB_USER / DB_PASS: Your MySQL username and password
+//  - DB_NAME: The database name you created
+//
+// SECURITY: Never commit real passwords to version control.
+// After deployment, set DB_PASS to your real password.
+// ============================================================
 
-// Encryption key for sensitive fields (e.g., National ID numbers).
-// Generate a random 32-byte key and replace the value below for production.
-define('APP_KEY', 'change-me-to-a-random-32-byte-key-in-production');
+define('DB_HOST', 'localhost');       // e.g. localhost, mysql.hostinger.com
+define('DB_USER', 'root');            // Replace with your MySQL username
+define('DB_PASS', '');                // Replace with your MySQL password
+define('DB_NAME', 'equator_royal_tour'); // Replace with your database name
+
+// Encryption key for National ID numbers and other sensitive fields.
+// REQUIRED: Generate a random key before deployment.
+//   Terminal: php -r "echo bin2hex(random_bytes(32));"
+//   Or visit: https://www.random.org/strings/
+// Paste the result below between the quotes.
+define('APP_KEY', 'change-me-to-a-random-32-byte-hex-key');
+
+// Email notifications will be sent TO this address.
+// Replace with your real email so you receive form submissions.
+define('NOTIFY_EMAIL', 'your-email@example.com');
 
 function encrypt_field($plaintext) {
     $key = hash('SHA256', APP_KEY, true);

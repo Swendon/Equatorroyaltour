@@ -118,7 +118,8 @@ img { max-width: 100%; display: block; }
 /* Hero */
 .hero {
   background:
-    linear-gradient(120deg, rgba(31,61,43,0.92), rgba(31,61,43,0.75)),
+    linear-gradient(120deg, rgba(31,61,43,0.88), rgba(31,61,43,0.72)),
+    url('../images/equator-royal-tour.png') center center / cover no-repeat,
     repeating-linear-gradient(45deg, rgba(217,138,43,0.08) 0 2px, transparent 2px 40px);
   color: var(--cream);
   padding: 76px 0 84px;

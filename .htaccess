@@ -2,6 +2,9 @@
 # Prevent directory listing
 Options -Indexes
 
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
 # Protect sensitive files
 <FilesMatch "\.(sql|log|md|json|env|dist|inc)$">
     Require all denied
@@ -18,9 +21,8 @@ Options -Indexes
 </Files>
 
 # Protect .git directory
-<DirectoryMatch "\.git">
-    Require all denied
-</DirectoryMatch>
+RewriteRule ^\.git - [F,L]
+</IfModule>
 
 # Protect admin directory (optional: restrict by IP if needed)
 # <Directory "admin">

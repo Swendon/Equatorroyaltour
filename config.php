@@ -12,10 +12,10 @@
 // After deployment, set DB_PASS to your real password.
 // ============================================================
 
-define('DB_HOST', 'localhost');       // e.g. localhost, mysql.hostinger.com
-define('DB_USER', 'root');            // Replace with your MySQL username
-define('DB_PASS', 'Ruby@254');        // Replace with your MySQL password
-define('DB_NAME', 'equator_royal_tour'); // Replace with your database name
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'equator_royal_tour');
 
 // Encryption key for National ID numbers and other sensitive fields.
 // REQUIRED: Generate a random key before deployment.
@@ -26,7 +26,7 @@ define('APP_KEY', 'change-me-to-a-random-32-byte-hex-key');
 
 // Email notifications will be sent TO this address.
 // Replace with your real email so you receive form submissions.
-define('NOTIFY_EMAIL', 'jswendon@gmail.com');
+define('NOTIFY_EMAIL', getenv('NOTIFY_EMAIL') ?: '');
 
 function encrypt_field($plaintext) {
     $key = hash('SHA256', APP_KEY, true);

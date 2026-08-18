@@ -35,7 +35,7 @@
 ```php
 define('DB_HOST', 'localhost');          // Usually 'localhost', check your host
 define('DB_USER', 'your_db_username');   // Replace with your MySQL username
-define('DB_PASS', 'Ruby@254');   // Replace with your MySQL password
+define('DB_PASS', 'your_db_password'); // Replace with your MySQL password
 define('DB_NAME', 'equator_royal_tour'); // Replace with your database name
 ```
 
@@ -49,7 +49,7 @@ define('APP_KEY', 'paste-your-random-32-byte-key-here');
 ```
 
 3. **Update the notification email address**:
-   - Set `NOTIFY_EMAIL` in `config.php` to `jswendon@gmail.com`
+   - Set `NOTIFY_EMAIL` in `config.php` to your notification email address
 
 ## Step 5 — Set Permissions
 Some hosts require writable directories:

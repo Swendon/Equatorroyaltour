@@ -2,125 +2,122 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/auth_check.php';
 
-// Handle status updates
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registration_id'], $_POST['status'], $_POST['csrf_token']) && $_POST['csrf_token'] === ($_SESSION['csrf_token'] ?? '')) {
-    $id = (int) $_POST['registration_id'];
-    $status = in_array($_POST['status'], ['Pending', 'Approved', 'Rejected'], true) ? $_POST['status'] : 'Pending';
-    $stmt = mysqli_prepare($conn, 'UPDATE registrations SET status = ? WHERE id = ?');
-    mysqli_stmt_bind_param($stmt, 'si', $status, $id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-    header('Location: dashboard.php');
-    exit;
-}
-
-$totalResult = mysqli_query($conn, 'SELECT COUNT(*) AS c FROM registrations');
-$total = mysqli_fetch_assoc($totalResult)['c'];
-
-$pendingResult = mysqli_query($conn, "SELECT COUNT(*) AS c FROM registrations WHERE status = 'Pending'");
-$pending = mysqli_fetch_assoc($pendingResult)['c'];
-
-$approvedResult = mysqli_query($conn, "SELECT COUNT(*) AS c FROM registrations WHERE status = 'Approved'");
-$approved = mysqli_fetch_assoc($approvedResult)['c'];
-
-$registrations = mysqli_query($conn, 'SELECT * FROM registrations ORDER BY created_at DESC');
-$messages = mysqli_query($conn, 'SELECT * FROM messages ORDER BY created_at DESC LIMIT 10');
+$totalReg = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM registrations'))['c'];
+$pendingReg = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS c FROM registrations WHERE status = 'Pending'"))['c'];
+$approvedReg = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS c FROM registrations WHERE status = 'Approved'"))['c'];
+$rejectedReg = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS c FROM registrations WHERE status = 'Rejected'"))['c'];
+$totalMessages = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM messages'))['c'];
+$unreadMessages = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM messages'))['c'];
+$totalAdmins = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM admins'))['c'];
+$recentReg = mysqli_query($conn, 'SELECT full_name, trading_centre, status, created_at FROM registrations ORDER BY created_at DESC LIMIT 5');
+$recentMsg = mysqli_query($conn, 'SELECT name, email, subject, created_at FROM messages ORDER BY created_at DESC LIMIT 5');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard | Equator Royal Tour CBO</title>
+<title>Dashboard | Equator Royal Tour CBO</title>
 <link rel="stylesheet" href="../css/style.css">
+<?php include __DIR__ . '/includes/admin_header.php'; ?>
 </head>
 <body>
-<header class="site-header">
-  <div class="container">
+<div class="admin-layout">
+  <aside class="admin-sidebar">
     <div class="brand">
-      <span class="brand-mark">ERT</span>
-      <span class="brand-text">
-        <span class="title">Admin Dashboard</span>
-        <span class="subtitle">Equator Royal Tour CBO</span>
-      </span>
+      <span class="brand-mark">ERT Admin</span>
+      <span class="brand-text">Equator Royal Tour CBO</span>
     </div>
-    <nav class="nav-links">
-      <span style="color:var(--cream);">Logged in as <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+    <nav class="admin-nav">
+      <a href="dashboard.php" class="active">Dashboard</a>
+      <a href="registrations.php">Registrations</a>
+      <a href="messages.php">Messages</a>
+      <a href="change-password.php">Change Password</a>
       <a href="logout.php">Log Out</a>
     </nav>
-  </div>
-</header>
-
-<section class="section">
-  <div class="container">
-    <div class="grid grid-3" style="margin-bottom:36px;">
-      <div class="stat"><div class="num"><?php echo $total; ?></div><div class="label">Total Registrations</div></div>
-      <div class="stat"><div class="num"><?php echo $pending; ?></div><div class="label">Pending Review</div></div>
-      <div class="stat"><div class="num"><?php echo $approved; ?></div><div class="label">Approved Traders</div></div>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Dashboard</h1>
+      <div class="admin-user">Logged in as <strong><?php echo htmlspecialchars($_SESSION['admin_username']); ?></strong></div>
     </div>
 
-    <h2>Trader Registrations</h2>
-    <div style="overflow-x:auto;">
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th><th>ID Number</th><th>Phone</th><th>Centre</th><th>Produce</th><th>Gender</th><th>Status</th><th>Date</th><th>Update</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (mysqli_num_rows($registrations) === 0): ?>
-            <tr><td colspan="9">No registrations yet.</td></tr>
-          <?php else: ?>
-            <?php while ($r = mysqli_fetch_assoc($registrations)): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($r['full_name']); ?></td>
-                <td><?php echo htmlspecialchars(decrypt_field($r['id_number'])); ?></td>
-                <td><?php echo htmlspecialchars($r['phone']); ?></td>
-                <td><?php echo htmlspecialchars($r['trading_centre']); ?></td>
-                <td><?php echo htmlspecialchars($r['produce_type']); ?></td>
-                <td><?php echo htmlspecialchars($r['gender']); ?></td>
-                <td><span class="badge badge-<?php echo strtolower($r['status']); ?>"><?php echo htmlspecialchars($r['status']); ?></span></td>
-                <td><?php echo htmlspecialchars(date('d M Y', strtotime($r['created_at']))); ?></td>
-                <td>
-                  <form method="POST" style="display:flex;gap:6px;">
-                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? ''); ?>">
-                    <input type="hidden" name="registration_id" value="<?php echo (int) $r['id']; ?>">
-                    <select name="status" onchange="this.form.submit()">
-                      <option value="Pending" <?php echo $r['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
-                      <option value="Approved" <?php echo $r['status'] === 'Approved' ? 'selected' : ''; ?>>Approved</option>
-                      <option value="Rejected" <?php echo $r['status'] === 'Rejected' ? 'selected' : ''; ?>>Rejected</option>
-                    </select>
-                  </form>
-                </td>
-              </tr>
-            <?php endwhile; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="num"><?php echo $totalReg; ?></div>
+        <div class="label">Total Registrations</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $pendingReg; ?></div>
+        <div class="label">Pending Review</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $approvedReg; ?></div>
+        <div class="label">Approved Traders</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $rejectedReg; ?></div>
+        <div class="label">Rejected</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $totalMessages; ?></div>
+        <div class="label">Contact Messages</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $totalAdmins; ?></div>
+        <div class="label">Admin Users</div>
+      </div>
     </div>
 
-    <h2 style="margin-top:44px;">Recent Contact Messages</h2>
-    <div style="overflow-x:auto;">
-      <table>
-        <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Message</th><th>Date</th></tr></thead>
-        <tbody>
-          <?php if (mysqli_num_rows($messages) === 0): ?>
-            <tr><td colspan="5">No messages yet.</td></tr>
-          <?php else: ?>
-            <?php while ($m = mysqli_fetch_assoc($messages)): ?>
-              <tr>
-                <td><?php echo htmlspecialchars($m['name']); ?></td>
-                <td><?php echo htmlspecialchars($m['email']); ?></td>
-                <td><?php echo htmlspecialchars($m['subject']); ?></td>
-                <td><?php echo htmlspecialchars($m['message']); ?></td>
-                <td><?php echo htmlspecialchars(date('d M Y', strtotime($m['created_at']))); ?></td>
-              </tr>
-            <?php endwhile; ?>
-          <?php endif; ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+    <div class="grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="margin:0;">Recent Registrations</h3>
+          <a href="registrations.php" class="btn btn-sm btn-outline">View All</a>
+        </div>
+        <?php if (mysqli_num_rows($recentReg) === 0): ?>
+          <p style="color:var(--muted);font-size:14px;">No registrations yet.</p>
+        <?php else: ?>
+          <table>
+            <thead><tr><th>Name</th><th>Centre</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+              <?php while ($r = mysqli_fetch_assoc($recentReg)): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($r['full_name']); ?></td>
+                  <td><?php echo htmlspecialchars($r['trading_centre']); ?></td>
+                  <td><span class="badge badge-<?php echo strtolower($r['status']); ?>"><?php echo htmlspecialchars($r['status']); ?></span></td>
+                  <td><?php echo htmlspecialchars(date('d M Y', strtotime($r['created_at']))); ?></td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+      </div>
 
-<?php include __DIR__ . '/../includes/footer.php'; ?>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="margin:0;">Recent Messages</h3>
+          <a href="messages.php" class="btn btn-sm btn-outline">View All</a>
+        </div>
+        <?php if (mysqli_num_rows($recentMsg) === 0): ?>
+          <p style="color:var(--muted);font-size:14px;">No messages yet.</p>
+        <?php else: ?>
+          <table>
+            <thead><tr><th>Name</th><th>Subject</th><th>Date</th></tr></thead>
+            <tbody>
+              <?php while ($m = mysqli_fetch_assoc($recentMsg)): ?>
+                <tr>
+                  <td><?php echo htmlspecialchars($m['name']); ?></td>
+                  <td><?php echo htmlspecialchars($m['subject'] ?: '(no subject)'); ?></td>
+                  <td><?php echo htmlspecialchars(date('d M Y', strtotime($m['created_at']))); ?></td>
+                </tr>
+              <?php endwhile; ?>
+            </tbody>
+          </table>
+        <?php endif; ?>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

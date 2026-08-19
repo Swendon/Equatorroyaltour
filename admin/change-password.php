@@ -37,8 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,29 +46,47 @@ $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 <title>Change Password | Equator Royal Tour CBO</title>
 <link rel="stylesheet" href="../css/style.css">
 </head>
-<body style="background:var(--green-deep);min-height:100vh;display:flex;align-items:center;justify-content:center;">
-  <div class="form-card">
-    <h2 style="text-align:center;">Change Password</h2>
-    <p style="text-align:center;color:var(--muted);margin-bottom:20px;">You must change your password before continuing.</p>
-    <?php if (!empty($error)): ?>
-      <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
-    <form method="POST" action="change-password.php">
-      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
-      <div class="form-group">
-        <label for="current_password">Current Password</label>
-        <input type="password" id="current_password" name="current_password" required>
-      </div>
-      <div class="form-group">
-        <label for="new_password">New Password</label>
-        <input type="password" id="new_password" name="new_password" required minlength="8">
-      </div>
-      <div class="form-group">
-        <label for="confirm_password">Confirm New Password</label>
-        <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
-      </div>
-      <button type="submit" class="btn btn-primary" style="width:100%;">Update Password</button>
-    </form>
-  </div>
+<body>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="brand">
+      <span class="brand-mark">ERT Admin</span>
+      <span class="brand-text">Equator Royal Tour CBO</span>
+    </div>
+    <nav class="admin-nav">
+      <a href="dashboard.php">Dashboard</a>
+      <a href="registrations.php">Registrations</a>
+      <a href="messages.php">Messages</a>
+      <a href="change-password.php" class="active">Change Password</a>
+      <a href="logout.php">Log Out</a>
+    </nav>
+  </aside>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Change Password</h1>
+    </div>
+    <div class="card" style="max-width:500px;">
+      <?php if (!empty($error)): ?>
+        <div class="alert alert-error"><?php echo htmlspecialchars($error); ?></div>
+      <?php endif; ?>
+      <form method="POST" action="change-password.php">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+        <div class="form-group">
+          <label for="current_password">Current Password</label>
+          <input type="password" id="current_password" name="current_password" required>
+        </div>
+        <div class="form-group">
+          <label for="new_password">New Password</label>
+          <input type="password" id="new_password" name="new_password" required minlength="8">
+        </div>
+        <div class="form-group">
+          <label for="confirm_password">Confirm New Password</label>
+          <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Password</button>
+      </form>
+    </div>
+  </main>
+</div>
 </body>
 </html>

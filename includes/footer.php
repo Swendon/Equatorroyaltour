@@ -25,7 +25,7 @@
         }
         $chunks = array_chunk($centres, 3);
         foreach ($chunks as $chunk) {
-            echo '<p>' . htmlspecialchars(implode(' &middot; ', $chunk)) . '</p>';
+            echo '<p>' . htmlspecialchars(implode(', ', $chunk)) . '</p>';
         }
         ?>
       </div>

@@ -217,30 +217,49 @@ img { max-width: 100%; display: block; }
 .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
 .landing {
-  background: #132b1b url('../images/equator-royal-tour.png') center center / contain no-repeat;
+  background: url('../images/equator-royal-tour.png') center center / cover no-repeat;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: var(--white);
+  position: relative;
 }
 
-.overlay { display: none; }
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(31,61,43,0.55), rgba(31,61,43,0.45));
+  z-index: 1;
+}
 
-.landing .btn {
+.landing-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 20px;
+}
+
+.landing h1 {
+  font-size: 48px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.landing-subtitle {
+  font-size: 18px;
+  margin-bottom: 28px;
+  opacity: 0.95;
+}
+
+.landing-btn {
   display: inline-block;
-  padding: 15px 30px;
-  background: #008037;
-  color: white;
+  padding: 16px 32px;
+  border-radius: 8px;
   text-decoration: none;
-  border-radius: 5px;
-  margin: 10px;
-  border: none;
-}
-
-.landing .btn:hover {
-  background: #0a6b3a;
+  font-weight: 600;
 }
 
 .cta-banner {

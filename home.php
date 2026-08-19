@@ -5,6 +5,12 @@ $pageDescription = 'Equator Royal Tour CBO homepage — empowering 500 women tra
 $active = 'home';
 $basePath = '';
 $showFloatingWhatsapp = true;
+
+$gallery = mysqli_query($conn, "SELECT filename, original_name FROM uploads WHERE category = 'gallery' ORDER BY created_at DESC LIMIT 6");
+$proposal = mysqli_query($conn, "SELECT filename, original_name FROM uploads WHERE category = 'proposal' ORDER BY created_at DESC LIMIT 1");
+$proposal_row = mysqli_fetch_assoc($proposal);
+$proposal_url = $proposal_row ? 'uploads/' . rawurlencode($proposal_row['filename']) : 'assets/proposal.pdf';
+
 include __DIR__ . '/includes/header.php';
 ?>
 
@@ -167,24 +173,33 @@ include __DIR__ . '/includes/header.php';
       <p>Historic railway infrastructure, community tree planting, and the landscapes we are working to protect.</p>
     </div>
     <div class="grid grid-3 gallery-grid">
-      <div class="gallery-item">
-        <div class="gallery-placeholder" role="img" aria-label="Historic Equator railway sign along the corridor">
-          <span>Equator Heritage Sign</span>
+      <?php if (mysqli_num_rows($gallery) === 0): ?>
+        <div class="gallery-item">
+          <div class="gallery-placeholder" role="img" aria-label="Historic Equator railway sign along the corridor">
+            <span>Equator Heritage Sign</span>
+          </div>
+          <p class="gallery-caption">Historic Equator sign — a landmark of the corridor since 1926</p>
         </div>
-        <p class="gallery-caption">Historic Equator sign — a landmark of the corridor since 1926</p>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-placeholder" role="img" aria-label="Timboroa Railway Station heritage restoration site">
-          <span>Timboroa Station</span>
+        <div class="gallery-item">
+          <div class="gallery-placeholder" role="img" aria-label="Timboroa Railway Station heritage restoration site">
+            <span>Timboroa Station</span>
+          </div>
+          <p class="gallery-caption">Timboroa Railway Station — future Heritage Agricultural Hub</p>
         </div>
-        <p class="gallery-caption">Timboroa Railway Station — future Heritage Agricultural Hub</p>
-      </div>
-      <div class="gallery-item">
-        <div class="gallery-placeholder" role="img" aria-label="Community tree planting in Mau Mumberes water catchment">
-          <span>Catchment Restoration</span>
+        <div class="gallery-item">
+          <div class="gallery-placeholder" role="img" aria-label="Community tree planting in Mau Mumberes water catchment">
+            <span>Catchment Restoration</span>
+          </div>
+          <p class="gallery-caption">Community tree planting in the Mau–Mumberes catchment</p>
         </div>
-        <p class="gallery-caption">Community tree planting in the Mau–Mumberes catchment</p>
-      </div>
+      <?php else: ?>
+        <?php while ($g = mysqli_fetch_assoc($gallery)): ?>
+          <div class="gallery-item">
+            <img src="uploads/<?php echo htmlspecialchars(rawurlencode($g['filename'])); ?>" alt="<?php echo htmlspecialchars($g['original_name']); ?>" style="width:100%;height:220px;object-fit:cover;border-radius:var(--radius);">
+            <p class="gallery-caption"><?php echo htmlspecialchars($g['original_name']); ?></p>
+          </div>
+        <?php endwhile; ?>
+      <?php endif; ?>
     </div>
   </div>
 </section>
@@ -197,7 +212,7 @@ include __DIR__ . '/includes/header.php';
       <p>Corporate partners, NGOs, and development institutions can review the complete project proposal for investment and partnership.</p>
     </div>
     <div style="text-align:center;">
-      <a href="assets/proposal.pdf" class="btn btn-primary" target="_blank" rel="noreferrer">
+      <a href="<?php echo htmlspecialchars($proposal_url); ?>" class="btn btn-primary" target="_blank" rel="noreferrer">
         <i class="fa-solid fa-file-pdf" aria-hidden="true"></i>
         Download Full Proposal (PDF)
       </a>

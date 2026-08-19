@@ -65,6 +65,7 @@ $pageTitle = $pageTitle ?? 'Admin Dashboard';
       <a href="dashboard.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'dashboard.php' ? 'active' : ''; ?>"><i>&#9632;</i> Dashboard</a>
       <a href="registrations.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'registrations.php' ? 'active' : ''; ?>"><i>&#9786;</i> Registrations</a>
       <a href="messages.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'messages.php' ? 'active' : ''; ?>"><i>&#9993;</i> Messages</a>
+      <a href="uploads.php" class="<?php echo basename($_SERVER['PHP_SELF']) === 'uploads.php' ? 'active' : ''; ?>"><i>&#11038;</i> Uploads</a>
       <a href="change-password.php"><i>&#9733;</i> Change Password</a>
       <a href="logout.php"><i>&#8594;</i> Log Out</a>
     </nav>

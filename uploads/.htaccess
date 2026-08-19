@@ -1,0 +1,7 @@
+# Block script execution in uploads directory
+<FilesMatch "\.(php|php5|php7|phtml|phar|exe|bat|cmd|sh)$">
+    Require all denied
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes

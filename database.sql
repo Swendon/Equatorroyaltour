@@ -57,5 +57,16 @@ CREATE TABLE IF NOT EXISTS admins (
     must_change_password TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
+-- Uploaded files (proposals, gallery photos, etc.)
+CREATE TABLE IF NOT EXISTS uploads (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    filename VARCHAR(255) NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    file_type VARCHAR(100) NOT NULL,
+    file_size INT NOT NULL,
+    category ENUM('proposal', 'gallery', 'document') NOT NULL DEFAULT 'document',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 -- No default admin account is inserted. Run the setup wizard at /admin/login.php
 -- after importing this schema to create your first administrator account.

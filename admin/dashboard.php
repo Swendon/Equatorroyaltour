@@ -9,6 +9,8 @@ $rejectedReg = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS c FROM
 $totalMessages = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM messages'))['c'];
 $unreadMessages = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM messages'))['c'];
 $totalAdmins = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM admins'))['c'];
+$totalUploads = mysqli_fetch_assoc(mysqli_query($conn, 'SELECT COUNT(*) AS c FROM uploads'))['c'];
+$totalProposals = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS c FROM uploads WHERE category = 'proposal'"))['c'];
 $recentReg = mysqli_query($conn, 'SELECT full_name, trading_centre, status, created_at FROM registrations ORDER BY created_at DESC LIMIT 5');
 $recentMsg = mysqli_query($conn, 'SELECT name, email, subject, created_at FROM messages ORDER BY created_at DESC LIMIT 5');
 ?>
@@ -32,6 +34,7 @@ $recentMsg = mysqli_query($conn, 'SELECT name, email, subject, created_at FROM m
       <a href="dashboard.php" class="active">Dashboard</a>
       <a href="registrations.php">Registrations</a>
       <a href="messages.php">Messages</a>
+      <a href="uploads.php">Uploads</a>
       <a href="change-password.php">Change Password</a>
       <a href="logout.php">Log Out</a>
     </nav>
@@ -66,6 +69,14 @@ $recentMsg = mysqli_query($conn, 'SELECT name, email, subject, created_at FROM m
       <div class="stat-card">
         <div class="num"><?php echo $totalAdmins; ?></div>
         <div class="label">Admin Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $totalUploads; ?></div>
+        <div class="label">Total Files</div>
+      </div>
+      <div class="stat-card">
+        <div class="num"><?php echo $totalProposals; ?></div>
+        <div class="label">Proposals</div>
       </div>
     </div>
 

@@ -115,6 +115,20 @@ img { max-width: 100%; display: block; }
   border-bottom-color: var(--amber-light);
 }
 
+.nav-links a.admin-link {
+  border: 1px solid var(--amber);
+  padding: 6px 14px;
+  border-radius: 6px;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.nav-links a.admin-link:hover {
+  background: var(--amber);
+  color: var(--green-deep);
+  border-bottom-color: transparent;
+}
+
 /* Hero */
 .hero {
   background:

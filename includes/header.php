@@ -1,6 +1,7 @@
 <?php if (!isset($pageTitle)) { $pageTitle = 'Equator Royal Tour CBO'; }
 if (!isset($pageDescription)) { $pageDescription = 'Equator Royal Tour CBO — empowering women traders, restoring the Mau–Mumberes catchment, and unlocking tourism and transport opportunities across Baringo County, Kenya.'; }
-if (!isset($showFloatingWhatsapp)) { $showFloatingWhatsapp = true; } ?>
+if (!isset($showFloatingWhatsapp)) { $showFloatingWhatsapp = true; }
+if (!isset($showAdminLink)) { $showAdminLink = false; } ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +29,9 @@ if (!isset($showFloatingWhatsapp)) { $showFloatingWhatsapp = true; } ?>
       <a href="<?php echo $basePath ?? ''; ?>project.php" class="<?php echo ($active ?? '') === 'project' ? 'active' : ''; ?>">The Project</a>
       <a href="<?php echo $basePath ?? ''; ?>register.php" class="<?php echo ($active ?? '') === 'register' ? 'active' : ''; ?>">Trader Registration</a>
       <a href="<?php echo $basePath ?? ''; ?>contact.php" class="<?php echo ($active ?? '') === 'contact' ? 'active' : ''; ?>">Contact</a>
+      <?php if ($showAdminLink): ?>
+        <a href="<?php echo $basePath ?? ''; ?>admin/login.php" class="admin-link">Admin</a>
+      <?php endif; ?>
     </nav>
   </div>
 </header>

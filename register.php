@@ -5,6 +5,7 @@ $pageDescription = 'Join the Mumberes Women Traders Cooperative. Register as a t
 $active = 'register';
 $basePath = '';
 $showFloatingWhatsapp = true;
+$showAdminLink = true;
 
 $csrf_token = bin2hex(random_bytes(32));
 $_SESSION['csrf_token'] = $csrf_token;

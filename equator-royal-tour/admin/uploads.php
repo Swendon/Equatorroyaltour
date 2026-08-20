@@ -9,7 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
         $error = 'Invalid request.';
     } elseif (empty($_FILES['upload_file']) || $_FILES['upload_file']['error'] !== UPLOAD_ERR_OK) {
-        $error = 'Please select a file to upload.';
+        $upload_error = $_FILES['upload_file']['error'] ?? UPLOAD_ERR_NO_FILE;
+        switch ($upload_error) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                $error = 'File is too large. Maximum size is 10MB (check upload_max_filesize and post_max_size in php.ini).';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $error = 'Please select a file to upload.';
+                break;
+            default:
+                $error = 'Upload failed with error code ' . $upload_error . '.';
+        }
     } else {
         $file = $_FILES['upload_file'];
         $original_name = $file['name'];
@@ -29,23 +40,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $new_filename = bin2hex(random_bytes(16)) . '.' . $file_ext;
             $upload_dir = UPLOAD_DIR;
             if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0755, true);
+                if (!mkdir($upload_dir, 0755, true)) {
+                    $error = 'Failed to create uploads directory. Please check permissions.';
+                }
             }
-            if (!is_writable($upload_dir)) {
+            if (!empty($error)) {
+                // error already set, skip writability check
+            } elseif (!is_writable($upload_dir)) {
                 $error = 'Uploads directory is not writable. Please check permissions.';
             } else {
                 $destination = $upload_dir . $new_filename;
 
                 if (move_uploaded_file($file_tmp, $destination)) {
-                $file_type = mime_content_type($destination) ?: 'application/octet-stream';
+                 $file_type = function_exists('mime_content_type') ? (mime_content_type($destination) ?: 'application/octet-stream') : 'application/octet-stream';
                 $stmt = mysqli_prepare($conn, 'INSERT INTO uploads (filename, original_name, file_type, file_size, category) VALUES (?, ?, ?, ?, ?)');
-                mysqli_stmt_bind_param($stmt, 'sssis', $new_filename, $original_name, $file_type, $file_size, $category);
-                if (mysqli_stmt_execute($stmt)) {
-                    $message = 'File uploaded successfully.';
+                if (!$stmt) {
+                    $error = 'Database error: ' . mysqli_error($conn);
                 } else {
-                    $error = 'Database error. Please try again.';
+                    mysqli_stmt_bind_param($stmt, 'sssis', $new_filename, $original_name, $file_type, $file_size, $category);
+                    if (mysqli_stmt_execute($stmt)) {
+                        $message = 'File uploaded successfully.';
+                    } else {
+                        $error = 'Database error: ' . mysqli_stmt_error($stmt);
+                    }
+                    mysqli_stmt_close($stmt);
                 }
-                mysqli_stmt_close($stmt);
             } else {
                 $error = 'Failed to move uploaded file.';
             }

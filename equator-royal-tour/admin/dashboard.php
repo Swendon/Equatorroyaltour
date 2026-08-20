@@ -20,7 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
         $galleryError = 'Invalid request.';
     } elseif (empty($_FILES['gallery_photo']) || $_FILES['gallery_photo']['error'] !== UPLOAD_ERR_OK) {
-        $galleryError = 'Please select a photo to upload.';
+        $upload_error = $_FILES['gallery_photo']['error'] ?? UPLOAD_ERR_NO_FILE;
+        switch ($upload_error) {
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                $galleryError = 'File is too large. Maximum size is 10MB (check upload_max_filesize and post_max_size in php.ini).';
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                $galleryError = 'Please select a photo to upload.';
+                break;
+            default:
+                $galleryError = 'Upload failed with error code ' . $upload_error . '.';
+        }
     } else {
         $file = $_FILES['gallery_photo'];
         $original_name = $file['name'];
@@ -39,23 +50,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $new_filename = bin2hex(random_bytes(16)) . '.' . $file_ext;
             $upload_dir = UPLOAD_DIR;
             if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0755, true);
+                if (!mkdir($upload_dir, 0755, true)) {
+                    $galleryError = 'Failed to create uploads directory. Please check permissions.';
+                }
             }
-            if (!is_writable($upload_dir)) {
+            if (!empty($galleryError)) {
+                // error already set
+            } elseif (!is_writable($upload_dir)) {
                 $galleryError = 'Uploads directory is not writable. Please check permissions.';
             } else {
                 $destination = $upload_dir . $new_filename;
 
                 if (move_uploaded_file($file_tmp, $destination)) {
-                    $file_type = mime_content_type($destination) ?: 'application/octet-stream';
+                    $file_type = function_exists('mime_content_type') ? (mime_content_type($destination) ?: 'application/octet-stream') : 'application/octet-stream';
                     $stmt = mysqli_prepare($conn, 'INSERT INTO uploads (filename, original_name, file_type, file_size, category) VALUES (?, ?, ?, ?, ?)');
+                    if (!$stmt) {
+                        $galleryError = 'Database error: ' . mysqli_error($conn);
+                    } else {
                     mysqli_stmt_bind_param($stmt, 'sssis', $new_filename, $original_name, $file_type, $file_size, 'gallery');
                     if (mysqli_stmt_execute($stmt)) {
                         $galleryMessage = 'Photo uploaded to gallery successfully.';
                     } else {
-                        $galleryError = 'Database error. Please try again.';
+                        $galleryError = 'Database error: ' . mysqli_stmt_error($stmt);
                     }
                     mysqli_stmt_close($stmt);
+                    }
                 } else {
                     $galleryError = 'Failed to move uploaded file.';
                 }

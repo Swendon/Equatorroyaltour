@@ -1,0 +1,768 @@
+/* Equator Royal Tour CBO — stylesheet
+   Palette: deep railway green, sun-baked amber, warm cream.
+   Concept: "Corridor & Catchment" — the road/rail line as a visual motif. */
+
+:root {
+  --green-deep: #1f3d2b;
+  --green-mid: #2f5d3f;
+  --amber: #d98a2b;
+  --amber-light: #f0a94e;
+  --cream: #faf6ee;
+  --cream-dark: #f0e9d8;
+  --ink: #23281f;
+  --muted: #6b7264;
+  --white: #ffffff;
+  --radius: 10px;
+  --shadow: 0 10px 30px rgba(31, 61, 43, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--green-deep);
+  margin-top: 0;
+}
+
+a { color: var(--green-mid); text-decoration: none; }
+a:hover { color: var(--amber); }
+
+img { max-width: 100%; display: block; }
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Header */
+.site-header {
+  background: var(--green-deep);
+  color: var(--cream);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 4px solid var(--amber);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--white);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber), var(--amber-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  color: var(--green-deep);
+  font-size: 18px;
+}
+
+.brand-text .title {
+  font-family: Georgia, serif;
+  font-size: 19px;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.brand-text .subtitle {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-light);
+}
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--cream);
+  font-size: 15px;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--amber-light);
+  border-bottom-color: var(--amber-light);
+}
+
+.nav-links a.admin-link {
+  border: 1px solid var(--amber);
+  padding: 6px 14px;
+  border-radius: 6px;
+  color: var(--amber);
+  font-weight: 600;
+}
+
+.nav-links a.admin-link:hover {
+  background: var(--amber);
+  color: var(--green-deep);
+  border-bottom-color: transparent;
+}
+
+/* Hero */
+.hero {
+  background:
+    linear-gradient(120deg, rgba(31,61,43,0.88), rgba(31,61,43,0.72)),
+    url('../images/equator-royal-tour.png') center center / cover no-repeat,
+    repeating-linear-gradient(45deg, rgba(217,138,43,0.08) 0 2px, transparent 2px 40px);
+  color: var(--cream);
+  padding: 76px 0 84px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, var(--amber) 0 24px, transparent 24px 40px);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 620px;
+}
+
+.hero-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.hero-panel-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  color: var(--cream);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+.hero-panel-card span:first-child {
+  display: block;
+  font-size: 34px;
+  font-family: Georgia, serif;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.hero .eyebrow {
+  color: var(--amber-light);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  color: var(--white);
+  font-size: 46px;
+  max-width: 720px;
+  margin-bottom: 24px;
+  line-height: 1.05;
+}
+
+.hero p.lead {
+  max-width: 620px;
+  font-size: 18px;
+  color: var(--cream-dark);
+  margin-bottom: 34px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: var(--radius);
+  font-weight: 600;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-primary {
+  background: var(--amber);
+  color: var(--green-deep);
+}
+.btn-primary:hover { background: var(--amber-light); color: var(--green-deep); }
+
+.btn-outline {
+  border-color: var(--cream);
+  color: var(--cream);
+  background: transparent;
+}
+.btn-outline:hover { border-color: var(--amber-light); color: var(--amber-light); }
+
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.landing {
+  background: url('../images/equator-royal-tour.png') center center / cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: center;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 60px;
+}
+
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(31,61,43,0.65) 0%, rgba(31,61,43,0.15) 60%, rgba(31,61,43,0.05) 100%);
+  z-index: 1;
+}
+
+.landing-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.landing h1 {
+  font-size: 48px;
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.landing-subtitle {
+  font-size: 18px;
+  margin-bottom: 28px;
+  opacity: 0.95;
+}
+
+.landing-btn {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.cta-banner {
+  background: linear-gradient(120deg, #20412f, #2d5b41);
+  color: var(--cream);
+  padding: 48px 0;
+  border-radius: 26px;
+  margin-top: 0;
+}
+
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+.cta-banner h3 {
+  margin: 0 0 10px;
+  font-size: 26px;
+}
+
+.cta-banner p {
+  margin: 0;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Sections */
+.section { padding: 64px 0; }
+.section.alt { background: var(--cream-dark); }
+.section-head { max-width: 680px; margin: 0 auto 40px; text-align: center; }
+.section-head .eyebrow {
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: bold;
+}
+.section-head h2 { font-size: 30px; margin-top: 8px; }
+.section-head p { color: var(--muted); }
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid-4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 26px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--amber);
+}
+
+.card h3 { font-size: 19px; margin-bottom: 8px; }
+.card p { color: var(--muted); margin: 0; font-size: 15px; }
+
+.contact-kicker {
+  display: inline-block;
+  color: var(--amber);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.whatsapp-card {
+  border-top-color: #25D366;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsapp-card::after {
+  content: "";
+  position: absolute;
+  right: -34px;
+  top: -34px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(37, 211, 102, 0.12);
+}
+
+.whatsapp-card h3 {
+  align-items: center;
+  display: flex;
+  gap: 9px;
+}
+
+.whatsapp-card h3 i { color: #25D366; }
+
+.whatsapp-card p + p { margin-top: 12px; }
+
+.whatsapp-contact-btn {
+  align-items: center;
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.stat {
+  text-align: center;
+  padding: 22px 10px;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.stat .num {
+  font-family: Georgia, serif;
+  font-size: 32px;
+  color: var(--green-deep);
+  font-weight: bold;
+}
+.stat .label {
+  color: var(--muted);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Centres chips */
+.centres-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.centre-chip {
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-left: 4px solid var(--green-mid);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--cream-dark);
+  font-size: 14px;
+}
+th {
+  background: var(--green-deep);
+  color: var(--cream);
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--cream-dark); }
+
+/* Forms */
+.form-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 34px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.form-group { margin-bottom: 18px; }
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid #d8d2c2;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  background: var(--cream);
+  color: var(--ink);
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--amber);
+  background: var(--white);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+
+.alert {
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+.alert-success { background: #e5f3e8; color: var(--green-deep); border: 1px solid #b8dcc0; }
+.alert-error { background: #fbe7e2; color: #9a3412; border: 1px solid #f2c2b3; }
+
+/* Footer */
+.site-footer {
+  background: var(--green-deep);
+  color: var(--cream-dark);
+  padding: 46px 0 24px;
+  margin-top: 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.footer-grid h4 { color: var(--amber-light); font-size: 15px; }
+.footer-grid a { color: var(--cream-dark); font-size: 14px; }
+.footer-grid a:hover { color: var(--amber-light); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 18px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Floating WhatsApp contact button */
+.whatsapp {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  max-width: calc(100vw - 48px);
+  padding: 10px 16px 10px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(18, 140, 126, 0.35);
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.whatsapp:hover {
+  color: #fff;
+  box-shadow: 0 16px 34px rgba(18, 140, 126, 0.45);
+  transform: translateY(-3px);
+}
+.whatsapp:focus-visible { outline: 3px solid var(--amber-light); outline-offset: 3px; }
+.whatsapp-icon {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  display: flex;
+  flex: 0 0 auto;
+  font-size: 30px;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+.whatsapp-copy {
+  display: grid;
+  line-height: 1.15;
+}
+.whatsapp-copy strong {
+  color: #fff;
+  font-size: 14px;
+}
+.whatsapp-copy span {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 560px) {
+  .whatsapp { right: 15px; bottom: 15px; min-height: 56px; padding-right: 14px; }
+  .whatsapp-icon { font-size: 28px; height: 38px; width: 38px; }
+  .whatsapp-copy strong { font-size: 13px; }
+}
+
+/* Page banner (interior pages) */
+.page-banner {
+  background: var(--green-deep);
+  color: var(--cream);
+  padding: 46px 0;
+  border-bottom: 4px solid var(--amber);
+}
+.page-banner h1 { color: var(--white); font-size: 32px; margin-bottom: 6px; }
+.page-banner p { color: var(--cream-dark); margin: 0; }
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.badge-pending { background: #fdf1d8; color: #92620a; }
+.badge-approved { background: #e5f3e8; color: #1f5c33; }
+.badge-rejected { background: #fbe2e2; color: #9a3412; }
+
+.testimonial-card { border-top-color: var(--green-mid); }
+.testimonial-text { color: var(--ink); font-size: 15px; font-style: italic; margin-bottom: 12px; }
+.testimonial-author { color: var(--muted); font-size: 13px; margin: 0; }
+
+.gallery-grid { gap: 28px; }
+.gallery-item { text-align: center; }
+.gallery-placeholder {
+  background: linear-gradient(120deg, var(--green-deep), var(--green-mid));
+  color: var(--cream);
+  border-radius: var(--radius);
+  padding: 48px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  box-shadow: var(--shadow);
+}
+.gallery-caption { color: var(--muted); font-size: 13px; margin-top: 10px; }
+
+.gallery-hero {
+  background: linear-gradient(120deg, rgba(31,61,43,0.85), rgba(31,61,43,0.7));
+  color: var(--cream);
+  padding: 60px 0 50px;
+  text-align: center;
+}
+.gallery-hero h1 { margin: 0 0 10px; font-size: 36px; }
+.gallery-hero p { margin: 0; opacity: 0.9; font-size: 16px; }
+
+.gallery-page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.gallery-page-item {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  background: var(--white);
+}
+.gallery-page-item img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.gallery-page-item:hover img { transform: scale(1.03); }
+.gallery-page-item .gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(31,61,43,0.75) 0%, rgba(31,61,43,0.0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+}
+.gallery-page-item:hover .gallery-overlay { opacity: 1; }
+.gallery-page-item .gallery-overlay span {
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 600;
+}
+.gallery-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.gallery-empty i { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+.gallery-empty h3 { margin: 0 0 10px; color: var(--ink); }
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--cream);
+  font-size: 36px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+.lightbox-caption {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--cream);
+  background: rgba(31,61,43,0.85);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-width: 90%;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .gallery-hero h1 { font-size: 26px; }
+  .gallery-page-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .gallery-page-item img { height: 180px; }
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 800px) { .two-col { grid-template-columns: 1fr; } }
+
+.timeline-phase {
+  border-left: 3px solid var(--amber);
+  padding-left: 20px;
+  margin-bottom: 26px;
+}
+.timeline-phase h3 { margin-bottom: 8px; }
+.timeline-phase ul { margin: 0; padding-left: 18px; color: var(--muted); }
+
+.mobile-toggle { display: none; }
+
+@media (max-width: 760px) {
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 14px;
+  }
+  .nav-links.open { display: flex; }
+  .site-header .container { flex-wrap: wrap; }
+  .mobile-toggle {
+    display: block;
+    background: transparent;
+    border: 1px solid var(--cream-dark);
+    color: var(--cream);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .hero h1 { font-size: 30px; }
+}

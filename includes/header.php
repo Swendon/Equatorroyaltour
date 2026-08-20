@@ -27,6 +27,7 @@ if (!isset($showAdminLink)) { $showAdminLink = false; } ?>
       <a href="<?php echo $basePath ?? ''; ?>index.php" class="<?php echo ($active ?? '') === 'home' ? 'active' : ''; ?>">Home</a>
       <a href="<?php echo $basePath ?? ''; ?>about.php" class="<?php echo ($active ?? '') === 'about' ? 'active' : ''; ?>">About Us</a>
       <a href="<?php echo $basePath ?? ''; ?>project.php" class="<?php echo ($active ?? '') === 'project' ? 'active' : ''; ?>">The Project</a>
+      <a href="<?php echo $basePath ?? ''; ?>gallery.php" class="<?php echo ($active ?? '') === 'gallery' ? 'active' : ''; ?>">Gallery</a>
       <a href="<?php echo $basePath ?? ''; ?>register.php" class="<?php echo ($active ?? '') === 'register' ? 'active' : ''; ?>">Trader Registration</a>
       <a href="<?php echo $basePath ?? ''; ?>contact.php" class="<?php echo ($active ?? '') === 'contact' ? 'active' : ''; ?>">Contact</a>
       <?php if ($showAdminLink): ?>

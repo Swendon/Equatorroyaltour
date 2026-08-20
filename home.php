@@ -201,6 +201,9 @@ include __DIR__ . '/includes/header.php';
         <?php endwhile; ?>
       <?php endif; ?>
     </div>
+    <div style="text-align:center;margin-top:24px;">
+      <a href="gallery.php" class="btn btn-primary">View Full Gallery</a>
+    </div>
   </div>
 </section>
 

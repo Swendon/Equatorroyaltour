@@ -47,17 +47,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 $destination = $upload_dir . $new_filename;
 
                 if (move_uploaded_file($file_tmp, $destination)) {
-                $file_type = mime_content_type($destination) ?: 'application/octet-stream';
-                $stmt = mysqli_prepare($conn, 'INSERT INTO uploads (filename, original_name, file_type, file_size, category) VALUES (?, ?, ?, ?, ?)');
-                mysqli_stmt_bind_param($stmt, 'sssis', $new_filename, $original_name, $file_type, $file_size, 'gallery');
-                if (mysqli_stmt_execute($stmt)) {
-                    $galleryMessage = 'Photo uploaded to gallery successfully.';
+                    $file_type = mime_content_type($destination) ?: 'application/octet-stream';
+                    $stmt = mysqli_prepare($conn, 'INSERT INTO uploads (filename, original_name, file_type, file_size, category) VALUES (?, ?, ?, ?, ?)');
+                    mysqli_stmt_bind_param($stmt, 'sssis', $new_filename, $original_name, $file_type, $file_size, 'gallery');
+                    if (mysqli_stmt_execute($stmt)) {
+                        $galleryMessage = 'Photo uploaded to gallery successfully.';
+                    } else {
+                        $galleryError = 'Database error. Please try again.';
+                    }
+                    mysqli_stmt_close($stmt);
                 } else {
-                    $galleryError = 'Database error. Please try again.';
+                    $galleryError = 'Failed to move uploaded file.';
                 }
-                mysqli_stmt_close($stmt);
-            } else {
-                $galleryError = 'Failed to move uploaded file.';
             }
         }
     }
